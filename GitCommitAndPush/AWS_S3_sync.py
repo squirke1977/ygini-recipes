@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""See docstring for GitCommitAndPush class"""
+"""See docstring for AWS_S3_Sync class"""
 
 from autopkglib import Processor
 from subprocess import call
@@ -27,13 +27,12 @@ except:
     print "WARNING: Failed 'from Foundation import CFPreferencesCopyAppValue' in " + __name__
 #pylint: enable=no-name-in-module
 
-__all__ = ["GitCommitAndPush"]
+__all__ = ["AWS_S3_Sync"]
 
 
 class AWS_S3_Sync(Processor):
-    """Commit the change on the git repo disignated via the MUNKI_REPO key from
-        com.github.autopkg domain and push it.
-        User running the process must have capabilities to push without user interaction."""
+    """Sync the files from a Munki repo disignated via the MUNKI_REPO key from
+        com.github.autopkg domain to an Amazon S3 bucket."""
     description = __doc__
     input_variables = {
     }
@@ -52,5 +51,5 @@ class AWS_S3_Sync(Processor):
             self.output("No munki repo set, nothing synchronised")
 
 if __name__ == "__main__":
-    PROCESSOR = GitCommitAndPush()
+    PROCESSOR = AWS_S3_Sync()
     PROCESSOR.execute_shell()
