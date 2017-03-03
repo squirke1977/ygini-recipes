@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #
 # Copyright 2016 Yoann Gini
+# Tweaked by Steve Quirke 2017
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ except:
 __all__ = ["GitCommitAndPush"]
 
 
-class GitCommitAndPush(Processor):
+class AWS_S3_Sync(Processor):
     """Commit the change on the git repo disignated via the MUNKI_REPO key from
         com.github.autopkg domain and push it.
         User running the process must have capabilities to push without user interaction."""
@@ -42,12 +43,13 @@ class GitCommitAndPush(Processor):
         repo_path = CFPreferencesCopyAppValue(
             "MUNKI_REPO",
             "com.github.autopkg")
+        s3_path = CFPreferencesCopyAppValue(
+            "S3_PATH",
+            "com.thoughtworks.s3.sync")
         if repo_path:
-            call(['git', 'add', '-A'], cwd=repo_path)
-            call(['git', 'commit', '-m', 'Automatic commit after AutoPKG run'], cwd=repo_path)
-            call(['git', 'push'], cwd=repo_path)
+            call(['aws', 's3', 'sync', '--exclude', '".git/*"', '--delete], repo_path, S3_PATH)
         else:
-            self.output("No munki repo set, nothing pushed")
+            self.output("No munki repo set, nothing synchronised")
 
 if __name__ == "__main__":
     PROCESSOR = GitCommitAndPush()
