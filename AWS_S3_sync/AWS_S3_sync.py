@@ -31,8 +31,8 @@ __all__ = ["AWS_S3_Sync"]
 
 
 class AWS_S3_Sync(Processor):
-    """Sync the files from a Munki repo disignated via the MUNKI_REPO key from
-        com.github.autopkg domain to an Amazon S3 bucket."""
+    """Sync the files from a Munki repo to an Amazon S3 bucket. Repo location is pulled from
+       the com.github.autopkg domain, and the s3 location from the com.thoughtworks.s3.sync domain"""
     description = __doc__
     input_variables = {
     }
@@ -46,7 +46,7 @@ class AWS_S3_Sync(Processor):
             "S3_PATH",
             "com.thoughtworks.s3.sync")
         if repo_path and s3_path:
-            call(['aws', 's3', 'sync', '--exclude', '".git/*"', '--delete'], repo_path, S3_PATH)
+            call(['aws', 's3', 'sync', '--exclude', '".git/*"', '--delete'], repo_path, s3_path)
         else:
             self.output("No munki repo set, nothing synchronised")
 
