@@ -45,8 +45,8 @@ class AWS_S3_Sync(Processor):
         s3_path = CFPreferencesCopyAppValue(
             "S3_PATH",
             "com.thoughtworks.s3.sync")
-        if repo_path:
-            call(['aws', 's3', 'sync', '--exclude', '".git/*"', '--delete], repo_path, S3_PATH)
+        if repo_path and s3_path:
+            call(['aws', 's3', 'sync', '--exclude', '".git/*"', '--delete'], repo_path, S3_PATH)
         else:
             self.output("No munki repo set, nothing synchronised")
 
