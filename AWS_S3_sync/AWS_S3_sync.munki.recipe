@@ -15,7 +15,7 @@
     <array>
         <dict>
             <key>Processor</key>
-            <string>AWS_S3_sync</string>
+            <string>AWS_S3_Sync</string>
         </dict>
     </array>
 </dict>
